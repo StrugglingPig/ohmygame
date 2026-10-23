@@ -35,6 +35,7 @@ export const EXTERNAL_PROJECT_TOOLS = [
   "canvas_check",
   "canvas_initialize",
   "generate_canvas_media",
+  "project_import_asset",
   "game_use",
   "playable_add_node",
   "playable_check",
@@ -70,6 +71,7 @@ const INSTRUCTIONS = [
   "Every tool except list_projects and open_project acts on one OhMyGame project. Working in a project folder selects it; otherwise call list_projects and open_project.",
   "Generation tools return their result when it is ready within about 45 seconds; otherwise they return a jobId. Call wait_job with it until the job finishes, and do not start the same generation again.",
   "Generated files are saved in the project workspace and its asset library; results name each file's workspace-relative path. Read them with your own file tools.",
+  "Media produced by a local plugin can be imported with project_import_asset. Its source must be under OhMyGame's private plugin-data directory; the tool registers the Library asset and adds a Canvas Asset node.",
 ].join("\n");
 
 const OWN_TOOLS: BridgeTool[] = [

@@ -111,7 +111,7 @@ export class PluginCapabilities {
       );
     const values = this.configuration.resolved(plugin);
     const resolved = substitute(template, values) as McpServerDefinition;
-    if (plugin.integration && resolved.command) {
+    if (resolved.command) {
       resolved.env = { ...(resolved.env as Record<string, string> | undefined), OHMYGAME_PLUGIN_DATA_DIR: this.dataPath(plugin.id) };
     }
     if (!isMcpServerDefinition(resolved))

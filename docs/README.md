@@ -5,6 +5,9 @@ The [中文快速指引](contributing.zh-CN.md) summarizes the same workflow in 
 [maintaining.md](maintaining.md) covers triage, review, the `dev`/`main` transition,
 and release preparation.
 
+For the local GameFactory generation-to-preview check, see
+[gamefactory-local-poc.md](gamefactory-local-poc.md).
+
 ## Where to change things
 
 The React renderer talks to a local Fastify daemon over HTTP and SSE. The daemon

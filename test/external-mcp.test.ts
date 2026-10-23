@@ -455,6 +455,7 @@ it("serves the public contract from the daemon without the app token", async () 
     "canvas_check",
     "canvas_initialize",
     "generate_canvas_media",
+    "project_import_asset",
     "game_use",
   ]);
   expect(

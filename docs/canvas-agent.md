@@ -7,6 +7,13 @@ requiring the user to open Design first.
 The agent shows final media deliverables on the relevant board, reusing existing
 nodes and asset IDs. Local media can reference existing project-relative paths.
 
+Plugin-produced media can enter through the `project_import_asset` host tool.
+It accepts only supported files under OhMyGame's private plugin-data directory,
+copies them into the project, registers the resulting Library asset, and adds
+an Asset node to a board. The tool reports the project-relative path, Library
+asset ID, and SHA-256 digest; use that report as evidence rather than assuming
+that a file outside the project was imported.
+
 ```text
 canvas/
   AGENTS.md

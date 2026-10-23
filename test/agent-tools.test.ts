@@ -41,6 +41,8 @@ describe("agent tools", () => {
     expect(activePiToolNames([], ["canvas_check", "generate_canvas_media"])).not.toContain("generate_canvas_media");
     expect(activePiToolNames([], ["canvas_initialize"])).toContain("canvas_initialize");
     expect(projectPiToolNames("planning", [], ["canvas_initialize"])).not.toContain("canvas_initialize");
+    expect(activePiToolNames([], ["project_import_asset"])).toContain("project_import_asset");
+    expect(projectPiToolNames("planning", [], ["project_import_asset"])).not.toContain("project_import_asset");
   });
 
   it("uses the shared Pi tools for every project type", () => {

@@ -194,6 +194,7 @@ bound project does not have returns an error that says why.
 | `generate_image`, `generate_video`, `generate_3d_asset`, `animate_3d_asset` | Run as jobs                                                                 |
 | `generate_speech`, `generate_sound_effect`, `generate_music`                | Run as jobs                                                                 |
 | `canvas_check`, `canvas_initialize`, `generate_canvas_media`                | `generate_canvas_media` runs as a job                                       |
+| `project_import_asset`                                                      | Imports a supported plugin media file, registers it in the Asset Library, and adds a Canvas Asset node |
 | `game_use`                                                                  | Needs the desktop app and a project with a game preview; opens a window     |
 | `playable_add_node`, `playable_check`                                       | Interactive Story projects only                                             |
 
@@ -207,7 +208,9 @@ and `update_plan`, since the client asks and plans itself; `install_plugin`,
 
 Generated files are saved in the project workspace and its Asset Library.
 Results name each file's workspace-relative path; the agent reads it with its
-own tools. Files the agent edits with its own tools bypass OhMyGame
+own tools. Plugin-produced media can be passed to `project_import_asset` only
+from OhMyGame's private plugin-data directory; arbitrary filesystem paths are
+rejected. Files the agent edits with its own tools bypass OhMyGame
 checkpoints and cannot be undone from the app. A session's playtest windows
 close when the session ends, changes project, or its project is deleted.
 

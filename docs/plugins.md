@@ -131,6 +131,14 @@ and preserves an existing user-selected icon.
 
 The host resolves `${config.field-id}` from the user's configuration. Missing inputs leave the affected service unconfigured; other configured services and Skills remain available. Each service has one configuration instance. Relative STDIO `cwd` paths resolve from the package root; native services default to that root. Imported connections retain their existing working-directory behavior. HTTP transports, OAuth discovery, tool filtering, timeouts, and other adapter options are preserved. Tools use a stable server namespace; legacy server IDs retain their original names.
 
+Local STDIO services receive `OHMYGAME_PLUGIN_DATA_DIR`, a private directory
+that survives package updates. A plugin that generates media there can call the
+agent's `project_import_asset` host tool. The tool only accepts supported media
+inside that private directory; it copies the file into the active project,
+records its SHA-256 digest, registers the Library asset, and adds an Asset node
+to the selected or default Canvas board. Plugins cannot choose arbitrary target
+paths or write directly to the Library.
+
 ### Compatibility and dependencies
 
 `formatVersion` describes the package contract, independently of the plugin's

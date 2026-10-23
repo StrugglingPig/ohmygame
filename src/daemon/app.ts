@@ -828,6 +828,7 @@ export function createApp(options: AppOptions = {}) {
   );
   const localPlugins = new LocalPluginStore(dataDirectory);
   const pluginCapabilities = new PluginCapabilities(dataDirectory, piAgentDirectory, [bundledPlugins, localPlugins], localPlugins, pluginSettings);
+  const pluginDataRoot = path.join(dataDirectory, "plugin-data");
   const summarizePlugin = (plugin: PluginDetail): PluginSummary => ({
     ...pluginSummary(plugin),
     mcpServerCount: plugin.mcpServers?.length ?? 0,
@@ -885,6 +886,7 @@ export function createApp(options: AppOptions = {}) {
       playtest ? { driver: playtest, resolveOpenTarget: () => playtestTarget(project) } : undefined,
       webSearch.enabled() ? (input, signal) => webSearch.search(conversation.summary.id, input, signal) : undefined,
       canvasStore,
+      pluginDataRoot,
     ), ...(project.integration?.preview === "external" ? [projectPreviewTool(project, plugins, pluginIntegrations)] : [])];
   };
   const playtestTarget = async (project: ProjectState): Promise<GameUseOpenTarget> => ({
@@ -908,7 +910,7 @@ export function createApp(options: AppOptions = {}) {
       return createAgentTools(
         project, tools, projects, undefined, undefined,
         playtest ? { driver: playtest, resolveOpenTarget: () => playtestTarget(project) } : undefined,
-        undefined, canvasStore,
+        undefined, canvasStore, pluginDataRoot,
       );
     },
     catalog: () => {
@@ -916,7 +918,7 @@ export function createApp(options: AppOptions = {}) {
       // full game_use input is listed; a story's own game_use accepts a subset.
       const placeholder: ProjectState = { id: "", name: "", type: "interactive-story", updatedAt: "", workspacePath: "", preview: { status: "stopped" } };
       return [
-        ...createAgentTools(placeholder, tools, projects, undefined, undefined, undefined, undefined, canvasStore),
+        ...createAgentTools(placeholder, tools, projects, undefined, undefined, undefined, undefined, canvasStore, pluginDataRoot),
         createGameUseTool(options.playtestDriver ?? UNAVAILABLE_GAME_RUNTIME, () => playtestTarget(placeholder)),
       ];
     },

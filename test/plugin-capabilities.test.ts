@@ -119,6 +119,21 @@ describe("native plugin capabilities", () => {
     expect((await service.effective("web-game")).mcpServers).not.toHaveProperty(makerName);
   });
 
+  it("gives local MCP servers a private plugin data directory", async () => {
+    const { service } = await environment();
+    const plugin = await service.create({
+      name: "local-data",
+      servers: {
+        local: { command: "python3", args: ["server.py"] },
+      },
+    });
+
+    expect(await service.definition(plugin, "local")).toMatchObject({
+      command: "python3",
+      env: { OHMYGAME_PLUGIN_DATA_DIR: service.dataPath(plugin.id) },
+    });
+  });
+
   it("reads credential masks without writes and preserves them on an explicit save", async () => {
     const { service, local, directory } = await environment();
     const source = path.join(directory, "raw-service");
@@ -499,9 +514,13 @@ describe("native plugin capabilities", () => {
     const plugin = (await service.all()).find((p) => p.id === owner.pluginId)!;
     expect(plugin.enabled).toBe(false);
     expect(service.runtimeName(plugin.id, owner.serverId)).toBe("example");
-    expect(await service.definition(plugin, owner.serverId)).toEqual(
-      original.mcpServers.example,
-    );
+    expect(await service.definition(plugin, owner.serverId)).toEqual({
+      ...original.mcpServers.example,
+      env: {
+        ...original.mcpServers.example.env,
+        OHMYGAME_PLUGIN_DATA_DIR: service.dataPath(plugin.id),
+      },
+    });
     await service.configuration.update(plugin, {});
     await service.migrate(manager);
     expect(

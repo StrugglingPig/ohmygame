@@ -20,6 +20,7 @@ import type { CanvasStore } from "./canvas-workspace.js";
 import { readCanvasAssets } from "./canvas-assets.js";
 import { AUDIO_VOICE_ID_MAX_LENGTH, AUDIO_VOICE_ID_PATTERN } from "../shared/audio.js";
 import { inspectPluginDraft } from "./plugin-draft.js";
+import { createProjectAssetImportTool } from "./project-asset-import.js";
 
 const PI_TOOL_NAMES: Record<ToolId, string> = {
   "generate-image": "generate_image",
@@ -83,6 +84,7 @@ export function createAgentTools(
   playtest?: { driver: GameRuntimeAdapter; resolveOpenTarget: () => Promise<GameUseOpenTarget> },
   searchWeb?: SearchWeb,
   canvasStore?: CanvasStore,
+  pluginDataRoot?: string,
 ): PiToolDefinition[] {
   const saveGeneratedAudio = async (
     toolId: "generate-speech" | "generate-sound-effect" | "generate-music",
@@ -586,6 +588,11 @@ export function createAgentTools(
         return { content: [{ type: "text", text: `Generated media for node ${input.nodeId}. Saved: ${paths.join(", ")}. Inspect or play the relevant output to evaluate the actual result.` }], details: { canvasGeneration: current } };
       } finally { signal?.removeEventListener("abort", cancel); }
     },
+  })] : []), ...(canvasStore && pluginDataRoot ? [createProjectAssetImportTool({
+    project,
+    projects,
+    canvasStore,
+    pluginDataRoot,
   })] : []), ...(playtest?.driver.available && playtest.driver.capabilities.projectTypes.includes(project.type) && (project.type !== "general" || supportsWebPreview(project))
     ? [createGameUseTool(playtest.driver, playtest.resolveOpenTarget, { bridge: project.type === "interactive-story" ? "reset" : "full" })]
     : [])];
