@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#07101e" />
+    <title>雷霆战机 · Thunder Fighter</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%2341e7ff' d='M32 4 44 28 60 38 40 42 32 60 24 42 4 38 20 28z'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main id="game-shell">
+      <div id="render-root" aria-label="雷霆战机游戏画面"></div>
+
+      <header id="hud" aria-label="游戏状态">
+        <section class="hud-block hud-score">
+          <span class="hud-label">SCORE</span>
+          <strong id="score">000000</strong>
+        </section>
+        <section class="hud-block hud-wave">
+          <span class="hud-label" id="wave-label">WAVE 1</span>
+          <strong id="objective">清除敌机中队</strong>
+        </section>
+        <section class="hud-block hud-status">
+          <span id="lives" aria-label="剩余生命">◆ ◆ ◆</span>
+          <span id="weapon">火力 LV.1</span>
+          <button id="sound-toggle" type="button" aria-label="切换声音">
+            SOUND ON
+          </button>
+        </section>
+      </header>
+
+      <section id="boss-hud" hidden aria-label="Boss 生命值">
+        <span>DREADNOUGHT</span>
+        <div class="boss-track"><i id="boss-fill"></i></div>
+      </section>
+
+      <div id="message" role="status" aria-live="polite"></div>
+
+      <section id="start-screen" class="overlay">
+        <div class="panel start-panel">
+          <p class="eyebrow">GAMEFACTORY × OHMYGAME</p>
+          <h1>雷霆战机</h1>
+          <p class="subtitle">THUNDER FIGHTER</p>
+          <p class="brief">
+            驾驶 CX-9 拦截机穿过三波封锁，击毁 Dreadnought，夺回近地航道。
+          </p>
+          <div class="controls-line">
+            <span>WASD / 方向键</span><span>拖拽移动</span><span>P 暂停</span>
+          </div>
+          <button
+            id="start-button"
+            class="primary-button"
+            type="button"
+            disabled
+          >
+            正在装配战机…
+          </button>
+          <p id="load-status" class="load-status">加载 GameFactory 资产</p>
+        </div>
+      </section>
+
+      <section id="pause-screen" class="overlay compact" hidden>
+        <div class="panel">
+          <p class="eyebrow">PAUSED</p>
+          <h2>航道暂停</h2>
+          <p>按 P 或点击按钮继续任务。</p>
+          <button id="resume-button" class="primary-button" type="button">
+            继续战斗
+          </button>
+        </div>
+      </section>
+
+      <section id="end-screen" class="overlay compact" hidden>
+        <div class="panel">
+          <p id="end-eyebrow" class="eyebrow">MISSION END</p>
+          <h2 id="end-title">任务失败</h2>
+          <p id="end-summary"></p>
+          <p class="high-score">
+            最高分 <strong id="high-score">000000</strong>
+          </p>
+          <button id="restart-button" class="primary-button" type="button">
+            重新出击
+          </button>
+        </div>
+      </section>
+
+      <footer id="controls-hint">
+        <span>自动射击</span>
+        <span>击落 7 架敌机获得火力升级</span>
+        <span>桌面与触屏均可操作</span>
+      </footer>
+    </main>
+    <script type="module" src="./game.js"></script>
+  </body>
+</html>

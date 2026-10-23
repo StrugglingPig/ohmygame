@@ -7,6 +7,8 @@ and release preparation.
 
 For the local GameFactory generation-to-preview check, see
 [gamefactory-local-poc.md](gamefactory-local-poc.md).
+For the Three.js Thunder Fighter game and its requirements/playtest record, see
+[thunder-fighter-poc.md](thunder-fighter-poc.md).
 
 ## Where to change things
 
